@@ -1,0 +1,773 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="datnModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="bai_kiem_tra">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nguoi_tao" Type="int" />
+          <Property Name="chu_de" Type="int" />
+          <Property Name="so_cau_hoi" Type="int" />
+          <Property Name="ma_bkt" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="bai_lam">
+          <Key>
+            <PropertyRef Name="id_nguoi_lam" />
+            <PropertyRef Name="id_bai_kt" />
+          </Key>
+          <Property Name="id_nguoi_lam" Type="int" Nullable="false" />
+          <Property Name="id_bai_kt" Type="int" Nullable="false" />
+          <Property Name="tong_diem" Type="float" />
+        </EntityType>
+        <EntityType Name="cau_hoi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="mo_ta" Type="ntext" Nullable="false" />
+          <Property Name="dap_an_a" Type="ntext" Nullable="false" />
+          <Property Name="dap_an_b" Type="ntext" Nullable="false" />
+          <Property Name="dap_an_c" Type="ntext" />
+          <Property Name="dap_an_d" Type="ntext" />
+          <Property Name="cau_tra_loi" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="chu_de" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="chu_de">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ten_chu_de" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ct_bai_kiem_tra">
+          <Key>
+            <PropertyRef Name="id_bkt" />
+            <PropertyRef Name="id_cau_hoi" />
+          </Key>
+          <Property Name="id_bkt" Type="int" Nullable="false" />
+          <Property Name="id_cau_hoi" Type="int" Nullable="false" />
+          <Property Name="thu_tu" Type="int" />
+        </EntityType>
+        <EntityType Name="ct_bai_lam">
+          <Key>
+            <PropertyRef Name="id_nguoi_lam" />
+            <PropertyRef Name="id_bai_kt" />
+            <PropertyRef Name="id_cau_hoi" />
+          </Key>
+          <Property Name="id_nguoi_lam" Type="int" Nullable="false" />
+          <Property Name="id_bai_kt" Type="int" Nullable="false" />
+          <Property Name="id_cau_hoi" Type="int" Nullable="false" />
+          <Property Name="dap_an_chon" Type="nchar" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="loai_tai_khoan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ten_loai" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tai_khoan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tai_khoan" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="mat_khau" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="loai" Type="int" Nullable="false" />
+          <Property Name="ho" Type="nvarchar" MaxLength="50" />
+          <Property Name="ten" Type="nvarchar" MaxLength="50" />
+          <Property Name="ngay_sinh" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_bai_kiem_tra_chu_de">
+          <End Role="chu_de" Type="Self.chu_de" Multiplicity="0..1" />
+          <End Role="bai_kiem_tra" Type="Self.bai_kiem_tra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="chu_de">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bai_kiem_tra">
+              <PropertyRef Name="chu_de" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bai_kiem_tra_tai_khoan">
+          <End Role="tai_khoan" Type="Self.tai_khoan" Multiplicity="0..1" />
+          <End Role="bai_kiem_tra" Type="Self.bai_kiem_tra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tai_khoan">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bai_kiem_tra">
+              <PropertyRef Name="nguoi_tao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bai_lam_bai_kiem_tra">
+          <End Role="bai_kiem_tra" Type="Self.bai_kiem_tra" Multiplicity="1" />
+          <End Role="bai_lam" Type="Self.bai_lam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bai_kiem_tra">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bai_lam">
+              <PropertyRef Name="id_bai_kt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bai_lam_tai_khoan">
+          <End Role="tai_khoan" Type="Self.tai_khoan" Multiplicity="1" />
+          <End Role="bai_lam" Type="Self.bai_lam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tai_khoan">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bai_lam">
+              <PropertyRef Name="id_nguoi_lam" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cau_hoi_chu_de">
+          <End Role="chu_de" Type="Self.chu_de" Multiplicity="1" />
+          <End Role="cau_hoi" Type="Self.cau_hoi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="chu_de">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="cau_hoi">
+              <PropertyRef Name="chu_de" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ct_bai_kiem_tra_bai_kiem_tra">
+          <End Role="bai_kiem_tra" Type="Self.bai_kiem_tra" Multiplicity="1" />
+          <End Role="ct_bai_kiem_tra" Type="Self.ct_bai_kiem_tra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bai_kiem_tra">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ct_bai_kiem_tra">
+              <PropertyRef Name="id_bkt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ct_bai_kiem_tra_cau_hoi">
+          <End Role="cau_hoi" Type="Self.cau_hoi" Multiplicity="1" />
+          <End Role="ct_bai_kiem_tra" Type="Self.ct_bai_kiem_tra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cau_hoi">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ct_bai_kiem_tra">
+              <PropertyRef Name="id_cau_hoi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ct_bai_lam_bai_lam">
+          <End Role="bai_lam" Type="Self.bai_lam" Multiplicity="1" />
+          <End Role="ct_bai_lam" Type="Self.ct_bai_lam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bai_lam">
+              <PropertyRef Name="id_nguoi_lam" />
+              <PropertyRef Name="id_bai_kt" />
+            </Principal>
+            <Dependent Role="ct_bai_lam">
+              <PropertyRef Name="id_nguoi_lam" />
+              <PropertyRef Name="id_bai_kt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ct_bai_lam_cau_hoi">
+          <End Role="cau_hoi" Type="Self.cau_hoi" Multiplicity="1" />
+          <End Role="ct_bai_lam" Type="Self.ct_bai_lam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cau_hoi">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ct_bai_lam">
+              <PropertyRef Name="id_cau_hoi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tai_khoan_loai_tai_khoan">
+          <End Role="loai_tai_khoan" Type="Self.loai_tai_khoan" Multiplicity="1" />
+          <End Role="tai_khoan" Type="Self.tai_khoan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="loai_tai_khoan">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tai_khoan">
+              <PropertyRef Name="loai" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="datnModelStoreContainer">
+          <EntitySet Name="bai_kiem_tra" EntityType="Self.bai_kiem_tra" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bai_lam" EntityType="Self.bai_lam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cau_hoi" EntityType="Self.cau_hoi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="chu_de" EntityType="Self.chu_de" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ct_bai_kiem_tra" EntityType="Self.ct_bai_kiem_tra" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ct_bai_lam" EntityType="Self.ct_bai_lam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="loai_tai_khoan" EntityType="Self.loai_tai_khoan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tai_khoan" EntityType="Self.tai_khoan" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_bai_kiem_tra_chu_de" Association="Self.FK_bai_kiem_tra_chu_de">
+            <End Role="chu_de" EntitySet="chu_de" />
+            <End Role="bai_kiem_tra" EntitySet="bai_kiem_tra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bai_kiem_tra_tai_khoan" Association="Self.FK_bai_kiem_tra_tai_khoan">
+            <End Role="tai_khoan" EntitySet="tai_khoan" />
+            <End Role="bai_kiem_tra" EntitySet="bai_kiem_tra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bai_lam_bai_kiem_tra" Association="Self.FK_bai_lam_bai_kiem_tra">
+            <End Role="bai_kiem_tra" EntitySet="bai_kiem_tra" />
+            <End Role="bai_lam" EntitySet="bai_lam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bai_lam_tai_khoan" Association="Self.FK_bai_lam_tai_khoan">
+            <End Role="tai_khoan" EntitySet="tai_khoan" />
+            <End Role="bai_lam" EntitySet="bai_lam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cau_hoi_chu_de" Association="Self.FK_cau_hoi_chu_de">
+            <End Role="chu_de" EntitySet="chu_de" />
+            <End Role="cau_hoi" EntitySet="cau_hoi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ct_bai_kiem_tra_bai_kiem_tra" Association="Self.FK_ct_bai_kiem_tra_bai_kiem_tra">
+            <End Role="bai_kiem_tra" EntitySet="bai_kiem_tra" />
+            <End Role="ct_bai_kiem_tra" EntitySet="ct_bai_kiem_tra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ct_bai_kiem_tra_cau_hoi" Association="Self.FK_ct_bai_kiem_tra_cau_hoi">
+            <End Role="cau_hoi" EntitySet="cau_hoi" />
+            <End Role="ct_bai_kiem_tra" EntitySet="ct_bai_kiem_tra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ct_bai_lam_bai_lam" Association="Self.FK_ct_bai_lam_bai_lam">
+            <End Role="bai_lam" EntitySet="bai_lam" />
+            <End Role="ct_bai_lam" EntitySet="ct_bai_lam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ct_bai_lam_cau_hoi" Association="Self.FK_ct_bai_lam_cau_hoi">
+            <End Role="cau_hoi" EntitySet="cau_hoi" />
+            <End Role="ct_bai_lam" EntitySet="ct_bai_lam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tai_khoan_loai_tai_khoan" Association="Self.FK_tai_khoan_loai_tai_khoan">
+            <End Role="loai_tai_khoan" EntitySet="loai_tai_khoan" />
+            <End Role="tai_khoan" EntitySet="tai_khoan" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="datnModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="bai_kiem_tra">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nguoi_tao" Type="Int32" />
+          <Property Name="chu_de" Type="Int32" />
+          <Property Name="so_cau_hoi" Type="Int32" />
+          <Property Name="ma_bkt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="chu_de1" Relationship="Self.FK_bai_kiem_tra_chu_de" FromRole="bai_kiem_tra" ToRole="chu_de" />
+          <NavigationProperty Name="tai_khoan" Relationship="Self.FK_bai_kiem_tra_tai_khoan" FromRole="bai_kiem_tra" ToRole="tai_khoan" />
+          <NavigationProperty Name="bai_lam" Relationship="Self.FK_bai_lam_bai_kiem_tra" FromRole="bai_kiem_tra" ToRole="bai_lam" />
+          <NavigationProperty Name="ct_bai_kiem_tra" Relationship="Self.FK_ct_bai_kiem_tra_bai_kiem_tra" FromRole="bai_kiem_tra" ToRole="ct_bai_kiem_tra" />
+        </EntityType>
+        <EntityType Name="bai_lam">
+          <Key>
+            <PropertyRef Name="id_nguoi_lam" />
+            <PropertyRef Name="id_bai_kt" />
+          </Key>
+          <Property Name="id_nguoi_lam" Type="Int32" Nullable="false" />
+          <Property Name="id_bai_kt" Type="Int32" Nullable="false" />
+          <Property Name="tong_diem" Type="Double" />
+          <NavigationProperty Name="bai_kiem_tra" Relationship="Self.FK_bai_lam_bai_kiem_tra" FromRole="bai_lam" ToRole="bai_kiem_tra" />
+          <NavigationProperty Name="tai_khoan" Relationship="Self.FK_bai_lam_tai_khoan" FromRole="bai_lam" ToRole="tai_khoan" />
+          <NavigationProperty Name="ct_bai_lam" Relationship="Self.FK_ct_bai_lam_bai_lam" FromRole="bai_lam" ToRole="ct_bai_lam" />
+        </EntityType>
+        <EntityType Name="cau_hoi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="mo_ta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="dap_an_a" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="dap_an_b" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="dap_an_c" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dap_an_d" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="cau_tra_loi" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="chu_de" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="chu_de1" Relationship="Self.FK_cau_hoi_chu_de" FromRole="cau_hoi" ToRole="chu_de" />
+          <NavigationProperty Name="ct_bai_kiem_tra" Relationship="Self.FK_ct_bai_kiem_tra_cau_hoi" FromRole="cau_hoi" ToRole="ct_bai_kiem_tra" />
+          <NavigationProperty Name="ct_bai_lam" Relationship="Self.FK_ct_bai_lam_cau_hoi" FromRole="cau_hoi" ToRole="ct_bai_lam" />
+        </EntityType>
+        <EntityType Name="chu_de">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ten_chu_de" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="bai_kiem_tra" Relationship="Self.FK_bai_kiem_tra_chu_de" FromRole="chu_de" ToRole="bai_kiem_tra" />
+          <NavigationProperty Name="cau_hoi" Relationship="Self.FK_cau_hoi_chu_de" FromRole="chu_de" ToRole="cau_hoi" />
+        </EntityType>
+        <EntityType Name="ct_bai_kiem_tra">
+          <Key>
+            <PropertyRef Name="id_bkt" />
+            <PropertyRef Name="id_cau_hoi" />
+          </Key>
+          <Property Name="id_bkt" Type="Int32" Nullable="false" />
+          <Property Name="id_cau_hoi" Type="Int32" Nullable="false" />
+          <Property Name="thu_tu" Type="Int32" />
+          <NavigationProperty Name="bai_kiem_tra" Relationship="Self.FK_ct_bai_kiem_tra_bai_kiem_tra" FromRole="ct_bai_kiem_tra" ToRole="bai_kiem_tra" />
+          <NavigationProperty Name="cau_hoi" Relationship="Self.FK_ct_bai_kiem_tra_cau_hoi" FromRole="ct_bai_kiem_tra" ToRole="cau_hoi" />
+        </EntityType>
+        <EntityType Name="ct_bai_lam">
+          <Key>
+            <PropertyRef Name="id_nguoi_lam" />
+            <PropertyRef Name="id_bai_kt" />
+            <PropertyRef Name="id_cau_hoi" />
+          </Key>
+          <Property Name="id_nguoi_lam" Type="Int32" Nullable="false" />
+          <Property Name="id_bai_kt" Type="Int32" Nullable="false" />
+          <Property Name="id_cau_hoi" Type="Int32" Nullable="false" />
+          <Property Name="dap_an_chon" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="bai_lam" Relationship="Self.FK_ct_bai_lam_bai_lam" FromRole="ct_bai_lam" ToRole="bai_lam" />
+          <NavigationProperty Name="cau_hoi" Relationship="Self.FK_ct_bai_lam_cau_hoi" FromRole="ct_bai_lam" ToRole="cau_hoi" />
+        </EntityType>
+        <EntityType Name="loai_tai_khoan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ten_loai" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tai_khoan" Relationship="Self.FK_tai_khoan_loai_tai_khoan" FromRole="loai_tai_khoan" ToRole="tai_khoan" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tai_khoan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tai_khoan1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="mat_khau" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="loai" Type="Int32" Nullable="false" />
+          <Property Name="ho" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ten" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ngay_sinh" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="bai_kiem_tra" Relationship="Self.FK_bai_kiem_tra_tai_khoan" FromRole="tai_khoan" ToRole="bai_kiem_tra" />
+          <NavigationProperty Name="bai_lam" Relationship="Self.FK_bai_lam_tai_khoan" FromRole="tai_khoan" ToRole="bai_lam" />
+          <NavigationProperty Name="loai_tai_khoan" Relationship="Self.FK_tai_khoan_loai_tai_khoan" FromRole="tai_khoan" ToRole="loai_tai_khoan" />
+        </EntityType>
+        <Association Name="FK_bai_kiem_tra_chu_de">
+          <End Role="chu_de" Type="Self.chu_de" Multiplicity="0..1" />
+          <End Role="bai_kiem_tra" Type="Self.bai_kiem_tra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="chu_de">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bai_kiem_tra">
+              <PropertyRef Name="chu_de" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bai_kiem_tra_tai_khoan">
+          <End Role="tai_khoan" Type="Self.tai_khoan" Multiplicity="0..1" />
+          <End Role="bai_kiem_tra" Type="Self.bai_kiem_tra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tai_khoan">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bai_kiem_tra">
+              <PropertyRef Name="nguoi_tao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bai_lam_bai_kiem_tra">
+          <End Role="bai_kiem_tra" Type="Self.bai_kiem_tra" Multiplicity="1" />
+          <End Role="bai_lam" Type="Self.bai_lam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bai_kiem_tra">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bai_lam">
+              <PropertyRef Name="id_bai_kt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ct_bai_kiem_tra_bai_kiem_tra">
+          <End Role="bai_kiem_tra" Type="Self.bai_kiem_tra" Multiplicity="1" />
+          <End Role="ct_bai_kiem_tra" Type="Self.ct_bai_kiem_tra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bai_kiem_tra">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ct_bai_kiem_tra">
+              <PropertyRef Name="id_bkt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bai_lam_tai_khoan">
+          <End Role="tai_khoan" Type="Self.tai_khoan" Multiplicity="1" />
+          <End Role="bai_lam" Type="Self.bai_lam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tai_khoan">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bai_lam">
+              <PropertyRef Name="id_nguoi_lam" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ct_bai_lam_bai_lam">
+          <End Role="bai_lam" Type="Self.bai_lam" Multiplicity="1" />
+          <End Role="ct_bai_lam" Type="Self.ct_bai_lam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bai_lam">
+              <PropertyRef Name="id_nguoi_lam" />
+              <PropertyRef Name="id_bai_kt" />
+            </Principal>
+            <Dependent Role="ct_bai_lam">
+              <PropertyRef Name="id_nguoi_lam" />
+              <PropertyRef Name="id_bai_kt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cau_hoi_chu_de">
+          <End Role="chu_de" Type="Self.chu_de" Multiplicity="1" />
+          <End Role="cau_hoi" Type="Self.cau_hoi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="chu_de">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="cau_hoi">
+              <PropertyRef Name="chu_de" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ct_bai_kiem_tra_cau_hoi">
+          <End Role="cau_hoi" Type="Self.cau_hoi" Multiplicity="1" />
+          <End Role="ct_bai_kiem_tra" Type="Self.ct_bai_kiem_tra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cau_hoi">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ct_bai_kiem_tra">
+              <PropertyRef Name="id_cau_hoi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ct_bai_lam_cau_hoi">
+          <End Role="cau_hoi" Type="Self.cau_hoi" Multiplicity="1" />
+          <End Role="ct_bai_lam" Type="Self.ct_bai_lam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cau_hoi">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ct_bai_lam">
+              <PropertyRef Name="id_cau_hoi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tai_khoan_loai_tai_khoan">
+          <End Role="loai_tai_khoan" Type="Self.loai_tai_khoan" Multiplicity="1" />
+          <End Role="tai_khoan" Type="Self.tai_khoan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="loai_tai_khoan">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tai_khoan">
+              <PropertyRef Name="loai" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="datnEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="bai_kiem_tra" EntityType="Self.bai_kiem_tra" />
+          <EntitySet Name="bai_lam" EntityType="Self.bai_lam" />
+          <EntitySet Name="cau_hoi" EntityType="Self.cau_hoi" />
+          <EntitySet Name="chu_de" EntityType="Self.chu_de" />
+          <EntitySet Name="ct_bai_kiem_tra" EntityType="Self.ct_bai_kiem_tra" />
+          <EntitySet Name="ct_bai_lam" EntityType="Self.ct_bai_lam" />
+          <EntitySet Name="loai_tai_khoan" EntityType="Self.loai_tai_khoan" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="tai_khoan" EntityType="Self.tai_khoan" />
+          <AssociationSet Name="FK_bai_kiem_tra_chu_de" Association="Self.FK_bai_kiem_tra_chu_de">
+            <End Role="chu_de" EntitySet="chu_de" />
+            <End Role="bai_kiem_tra" EntitySet="bai_kiem_tra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bai_kiem_tra_tai_khoan" Association="Self.FK_bai_kiem_tra_tai_khoan">
+            <End Role="tai_khoan" EntitySet="tai_khoan" />
+            <End Role="bai_kiem_tra" EntitySet="bai_kiem_tra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bai_lam_bai_kiem_tra" Association="Self.FK_bai_lam_bai_kiem_tra">
+            <End Role="bai_kiem_tra" EntitySet="bai_kiem_tra" />
+            <End Role="bai_lam" EntitySet="bai_lam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ct_bai_kiem_tra_bai_kiem_tra" Association="Self.FK_ct_bai_kiem_tra_bai_kiem_tra">
+            <End Role="bai_kiem_tra" EntitySet="bai_kiem_tra" />
+            <End Role="ct_bai_kiem_tra" EntitySet="ct_bai_kiem_tra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bai_lam_tai_khoan" Association="Self.FK_bai_lam_tai_khoan">
+            <End Role="tai_khoan" EntitySet="tai_khoan" />
+            <End Role="bai_lam" EntitySet="bai_lam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ct_bai_lam_bai_lam" Association="Self.FK_ct_bai_lam_bai_lam">
+            <End Role="bai_lam" EntitySet="bai_lam" />
+            <End Role="ct_bai_lam" EntitySet="ct_bai_lam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cau_hoi_chu_de" Association="Self.FK_cau_hoi_chu_de">
+            <End Role="chu_de" EntitySet="chu_de" />
+            <End Role="cau_hoi" EntitySet="cau_hoi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ct_bai_kiem_tra_cau_hoi" Association="Self.FK_ct_bai_kiem_tra_cau_hoi">
+            <End Role="cau_hoi" EntitySet="cau_hoi" />
+            <End Role="ct_bai_kiem_tra" EntitySet="ct_bai_kiem_tra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ct_bai_lam_cau_hoi" Association="Self.FK_ct_bai_lam_cau_hoi">
+            <End Role="cau_hoi" EntitySet="cau_hoi" />
+            <End Role="ct_bai_lam" EntitySet="ct_bai_lam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tai_khoan_loai_tai_khoan" Association="Self.FK_tai_khoan_loai_tai_khoan">
+            <End Role="loai_tai_khoan" EntitySet="loai_tai_khoan" />
+            <End Role="tai_khoan" EntitySet="tai_khoan" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(datnModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(datnModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="datnModelStoreContainer" CdmEntityContainer="datnEntities">
+          <EntitySetMapping Name="bai_kiem_tra">
+            <EntityTypeMapping TypeName="datnModel.bai_kiem_tra">
+              <MappingFragment StoreEntitySet="bai_kiem_tra">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="nguoi_tao" ColumnName="nguoi_tao" />
+                <ScalarProperty Name="chu_de" ColumnName="chu_de" />
+                <ScalarProperty Name="so_cau_hoi" ColumnName="so_cau_hoi" />
+                <ScalarProperty Name="ma_bkt" ColumnName="ma_bkt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bai_lam">
+            <EntityTypeMapping TypeName="datnModel.bai_lam">
+              <MappingFragment StoreEntitySet="bai_lam">
+                <ScalarProperty Name="id_nguoi_lam" ColumnName="id_nguoi_lam" />
+                <ScalarProperty Name="id_bai_kt" ColumnName="id_bai_kt" />
+                <ScalarProperty Name="tong_diem" ColumnName="tong_diem" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cau_hoi">
+            <EntityTypeMapping TypeName="datnModel.cau_hoi">
+              <MappingFragment StoreEntitySet="cau_hoi">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="mo_ta" ColumnName="mo_ta" />
+                <ScalarProperty Name="dap_an_a" ColumnName="dap_an_a" />
+                <ScalarProperty Name="dap_an_b" ColumnName="dap_an_b" />
+                <ScalarProperty Name="dap_an_c" ColumnName="dap_an_c" />
+                <ScalarProperty Name="dap_an_d" ColumnName="dap_an_d" />
+                <ScalarProperty Name="cau_tra_loi" ColumnName="cau_tra_loi" />
+                <ScalarProperty Name="chu_de" ColumnName="chu_de" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="chu_de">
+            <EntityTypeMapping TypeName="datnModel.chu_de">
+              <MappingFragment StoreEntitySet="chu_de">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ten_chu_de" ColumnName="ten_chu_de" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ct_bai_kiem_tra">
+            <EntityTypeMapping TypeName="datnModel.ct_bai_kiem_tra">
+              <MappingFragment StoreEntitySet="ct_bai_kiem_tra">
+                <ScalarProperty Name="id_bkt" ColumnName="id_bkt" />
+                <ScalarProperty Name="id_cau_hoi" ColumnName="id_cau_hoi" />
+                <ScalarProperty Name="thu_tu" ColumnName="thu_tu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ct_bai_lam">
+            <EntityTypeMapping TypeName="datnModel.ct_bai_lam">
+              <MappingFragment StoreEntitySet="ct_bai_lam">
+                <ScalarProperty Name="id_nguoi_lam" ColumnName="id_nguoi_lam" />
+                <ScalarProperty Name="id_bai_kt" ColumnName="id_bai_kt" />
+                <ScalarProperty Name="id_cau_hoi" ColumnName="id_cau_hoi" />
+                <ScalarProperty Name="dap_an_chon" ColumnName="dap_an_chon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="loai_tai_khoan">
+            <EntityTypeMapping TypeName="datnModel.loai_tai_khoan">
+              <MappingFragment StoreEntitySet="loai_tai_khoan">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ten_loai" ColumnName="ten_loai" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="datnModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tai_khoan">
+            <EntityTypeMapping TypeName="datnModel.tai_khoan">
+              <MappingFragment StoreEntitySet="tai_khoan">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="tai_khoan1" ColumnName="tai_khoan" />
+                <ScalarProperty Name="mat_khau" ColumnName="mat_khau" />
+                <ScalarProperty Name="loai" ColumnName="loai" />
+                <ScalarProperty Name="ho" ColumnName="ho" />
+                <ScalarProperty Name="ten" ColumnName="ten" />
+                <ScalarProperty Name="ngay_sinh" ColumnName="ngay_sinh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="datnModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="datnModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="datnModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="datnModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="datnModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="datnModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="datnModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="datnModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="datnModel.Store.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
