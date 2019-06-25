@@ -14,44 +14,44 @@ using DoAnTotNghiep.Models;
 namespace DoAnTotNghiep.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class ct_bai_kiem_traAPIController : ApiController
-    {       
+    public class ct_bai_lamAPIController : ApiController
+    {
         private datnEntities db = new datnEntities();
 
-        // GET: api/ct_bai_kiem_traAPI/Getct_bai_kiem_tra
-        public IQueryable<ct_bai_kiem_tra> Getct_bai_kiem_tra()
+        // GET: api/ct_bai_lamAPI
+        public IQueryable<ct_bai_lam> Getct_bai_lam()
         {
-            return db.ct_bai_kiem_tra;
+            return db.ct_bai_lam;
         }
 
-        // GET: api/ct_bai_kiem_traAPI/Getct_bai_kiem_tra/5
-        [ResponseType(typeof(ct_bai_kiem_tra))]
-        public IHttpActionResult Getct_bai_kiem_tra(int id)
+        // GET: api/ct_bai_lamAPI/5
+        [ResponseType(typeof(ct_bai_lam))]
+        public IHttpActionResult Getct_bai_lam(int id)
         {
-            ct_bai_kiem_tra ct_bai_kiem_tra = db.ct_bai_kiem_tra.Find(id);
-            if (ct_bai_kiem_tra == null)
+            ct_bai_lam ct_bai_lam = db.ct_bai_lam.Find(id);
+            if (ct_bai_lam == null)
             {
                 return NotFound();
             }
 
-            return Ok(ct_bai_kiem_tra);
+            return Ok(ct_bai_lam);
         }
 
-        // PUT: api/ct_bai_kiem_traAPI/5
+        // PUT: api/ct_bai_lamAPI/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult Putct_bai_kiem_tra(int id, ct_bai_kiem_tra ct_bai_kiem_tra)
+        public IHttpActionResult Putct_bai_lam(int id, ct_bai_lam ct_bai_lam)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != ct_bai_kiem_tra.id_bkt)
+            if (id != ct_bai_lam.id_nguoi_lam)
             {
                 return BadRequest();
             }
 
-            db.Entry(ct_bai_kiem_tra).State = EntityState.Modified;
+            db.Entry(ct_bai_lam).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace DoAnTotNghiep.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ct_bai_kiem_traExists(id))
+                if (!ct_bai_lamExists(id))
                 {
                     return NotFound();
                 }
@@ -72,16 +72,18 @@ namespace DoAnTotNghiep.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/ct_bai_kiem_traAPI/Postct_bai_kiem_tra
-        [ResponseType(typeof(ct_bai_kiem_tra))]
-        public IHttpActionResult Postct_bai_kiem_tra(ct_bai_kiem_tra ct_bai_kiem_tra)
+        
+        // POST: api/ct_bai_lamAPI
+        [ResponseType(typeof(ct_bai_lam))]
+        public IHttpActionResult Postct_bai_lam(ct_bai_lam ct_bai_lam)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.ct_bai_kiem_tra.Add(ct_bai_kiem_tra);
+            
+            db.ct_bai_lam.Add(ct_bai_lam);
 
             try
             {
@@ -89,7 +91,7 @@ namespace DoAnTotNghiep.Controllers
             }
             catch (DbUpdateException)
             {
-                if (ct_bai_kiem_traExists(ct_bai_kiem_tra.id_bkt))
+                if (ct_bai_lamExists(ct_bai_lam.id_nguoi_lam))
                 {
                     return Conflict();
                 }
@@ -99,23 +101,23 @@ namespace DoAnTotNghiep.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = ct_bai_kiem_tra.id_bkt }, ct_bai_kiem_tra);
+            return CreatedAtRoute("DefaultApi", new { id = ct_bai_lam.id_nguoi_lam }, ct_bai_lam);
         }
 
-        // DELETE: api/ct_bai_kiem_traAPI/5
-        [ResponseType(typeof(ct_bai_kiem_tra))]
-        public IHttpActionResult Deletect_bai_kiem_tra(int id)
+        // DELETE: api/ct_bai_lamAPI/5
+        [ResponseType(typeof(ct_bai_lam))]
+        public IHttpActionResult Deletect_bai_lam(int id)
         {
-            ct_bai_kiem_tra ct_bai_kiem_tra = db.ct_bai_kiem_tra.Find(id);
-            if (ct_bai_kiem_tra == null)
+            ct_bai_lam ct_bai_lam = db.ct_bai_lam.Find(id);
+            if (ct_bai_lam == null)
             {
                 return NotFound();
             }
 
-            db.ct_bai_kiem_tra.Remove(ct_bai_kiem_tra);
+            db.ct_bai_lam.Remove(ct_bai_lam);
             db.SaveChanges();
 
-            return Ok(ct_bai_kiem_tra);
+            return Ok(ct_bai_lam);
         }
 
         protected override void Dispose(bool disposing)
@@ -127,9 +129,9 @@ namespace DoAnTotNghiep.Controllers
             base.Dispose(disposing);
         }
 
-        private bool ct_bai_kiem_traExists(int id)
+        private bool ct_bai_lamExists(int id)
         {
-            return db.ct_bai_kiem_tra.Count(e => e.id_bkt == id) > 0;
+            return db.ct_bai_lam.Count(e => e.id_nguoi_lam == id) > 0;
         }
     }
 }

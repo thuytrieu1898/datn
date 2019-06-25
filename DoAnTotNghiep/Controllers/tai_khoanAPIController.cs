@@ -9,11 +9,13 @@ using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using DoAnTotNghiep.Models;
 
 namespace DoAnTotNghiep.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class tai_khoanAPIController : ApiController
     {
         private datnEntities db = new datnEntities();
@@ -113,7 +115,7 @@ namespace DoAnTotNghiep.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            tai_khoan.mat_khau = hashMD5(tai_khoan.mat_khau);
             db.tai_khoan.Add(tai_khoan);
             db.SaveChanges();
 

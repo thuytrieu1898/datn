@@ -7,11 +7,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using DoAnTotNghiep.Models;
 
 namespace DoAnTotNghiep.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class bai_kiem_traAPIController : ApiController
     {
         private datnEntities db = new datnEntities();
@@ -90,11 +92,11 @@ namespace DoAnTotNghiep.Controllers
                     throw;
                 }
             }
-
+            
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/bai_kiem_traAPI
+        // POST: api/bai_kiem_traAPI/Postbai_kiem_tra
         [ResponseType(typeof(bai_kiem_tra))]
         public IHttpActionResult Postbai_kiem_tra(bai_kiem_tra bai_kiem_tra)
         {

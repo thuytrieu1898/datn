@@ -7,11 +7,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using DoAnTotNghiep.Models;
 
 namespace DoAnTotNghiep.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class cau_hoiAPIController : ApiController
     {
         private datnEntities db = new datnEntities();
@@ -55,7 +57,7 @@ namespace DoAnTotNghiep.Controllers
             return Ok(cau_hoi);
         }
 
-        // PUT: api/cau_hoiAPI/5
+        // PUT: api/cau_hoiAPI/Putcau_hoi/5
         [ResponseType(typeof(void))]
         public IHttpActionResult Putcau_hoi(int id, cau_hoi cau_hoi)
         {
@@ -87,10 +89,11 @@ namespace DoAnTotNghiep.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(cau_hoi);
+            //return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/cau_hoiAPI
+        //tạo POST: api/cau_hoiAPI
         [ResponseType(typeof(cau_hoi))]
         public IHttpActionResult Postcau_hoi(cau_hoi cau_hoi)
         {
