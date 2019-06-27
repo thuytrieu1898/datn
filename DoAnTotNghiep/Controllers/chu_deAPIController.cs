@@ -18,6 +18,7 @@ namespace DoAnTotNghiep.Controllers
     {
         private datnEntities db = new datnEntities();
 
+        //lấy danh sách chủ đề
         // GET: api/chu_deAPI/Getchu_de
         [ResponseType(typeof(chu_de))]
         public IHttpActionResult Getchu_de()
@@ -31,6 +32,7 @@ namespace DoAnTotNghiep.Controllers
             return Ok(chu_de);
         }
 
+        //lấy danh sách chủ đề theo ID
         // GET: api/chu_deAPI/Getchu_de/5
         [ResponseType(typeof(chu_de))]
         public IHttpActionResult Getchu_de(int id)
@@ -82,7 +84,8 @@ namespace DoAnTotNghiep.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(chu_de);
+            //return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST: api/chu_deAPI/Postchu_de

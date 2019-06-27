@@ -16,6 +16,7 @@ namespace DoAnTotNghiep.Controllers
     {
         private datnEntities db = new datnEntities();
 
+        //Truyền tài khoản vào body, đăng nhập
         [HttpPost]
         public IHttpActionResult Login([FromBody] tai_khoan tai_khoan)
         {
@@ -25,7 +26,7 @@ namespace DoAnTotNghiep.Controllers
                      select new
                      {
                          maTK = t_khoan.ID,
-                         loai = t_khoan.loai_tai_khoan
+                         loai = t_khoan.loai
                      };
 
             if (tk == null)
@@ -35,6 +36,7 @@ namespace DoAnTotNghiep.Controllers
             return Ok(tk.FirstOrDefault());
         }
 
+        //hàm mã hóa
         public string hashMD5(string matkhau)
         {
             StringBuilder hash = new StringBuilder();

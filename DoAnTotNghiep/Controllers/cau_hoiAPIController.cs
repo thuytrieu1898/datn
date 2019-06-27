@@ -18,6 +18,7 @@ namespace DoAnTotNghiep.Controllers
     {
         private datnEntities db = new datnEntities();
 
+        //Lấy danh sách tất cả câu hỏi
         // GET: api/cau_hoiAPI/Getcau_hoi
         [ResponseType(typeof(void))]
         public IHttpActionResult Getcau_hoi()
@@ -35,20 +36,22 @@ namespace DoAnTotNghiep.Controllers
             return Ok(cau_hoi);
         }
 
+        //Lấy danh sách câu hỏi theo ID
         // GET: api/cau_hoiAPI/Getcau_hoi/5
         [ResponseType(typeof(cau_hoi))]
         public IHttpActionResult Getcau_hoi(int id)
         {
             var cau_hoi = from ch in db.cau_hoi
-                              where ch.ID.Equals(id)
-                              select new
-                              {
-                                  Mota = ch.mo_ta,
-                                  DaA = ch.dap_an_a,
-                                  DaB = ch.dap_an_b,
-                                  DaC = ch.dap_an_c,
-                                  DaD = ch.dap_an_d
-                              };
+                          where ch.ID.Equals(id)
+                          select new
+                          {
+                              id = ch.ID,
+                              Mota = ch.mo_ta,
+                              DaA = ch.dap_an_a,
+                              DaB = ch.dap_an_b,
+                              DaC = ch.dap_an_c,
+                              DaD = ch.dap_an_d
+                          };
             if (cau_hoi == null)
             {
                 return NotFound();
@@ -56,6 +59,33 @@ namespace DoAnTotNghiep.Controllers
 
             return Ok(cau_hoi);
         }
+
+        //Lấy danh sách câu hỏi theo chủ đề
+        //GET: api/cau_hoiAPI/GetCH_chu_de
+        [ResponseType(typeof(cau_hoi))]
+        public IHttpActionResult GetCH_chu_de(int ID)
+        {
+            var lstCauHoi = from cd in db.chu_de
+                            join ch in db.cau_hoi on cd.ID equals ch.chu_de
+                            where cd.ID.Equals(ID)
+                            select new
+                            {
+                                id = ch.ID,
+                                Mota = ch.mo_ta,
+                                DaA = ch.dap_an_a,
+                                DaB = ch.dap_an_b,
+                                DaC = ch.dap_an_c,
+                                DaD = ch.dap_an_d
+                            };
+
+            if (lstCauHoi == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(lstCauHoi.ToList());
+        }
+    
 
         // PUT: api/cau_hoiAPI/Putcau_hoi/5
         [ResponseType(typeof(void))]

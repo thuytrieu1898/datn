@@ -38,7 +38,8 @@ namespace DoAnTotNghiep.Controllers
 
         //    return Ok(tai_khoan);
         //}
-
+        
+        
         [HttpGet]
         [ResponseType(typeof(tai_khoan))]
         public IHttpActionResult Gettai_khoan(string taikhoan, string matkhau)
@@ -104,7 +105,7 @@ namespace DoAnTotNghiep.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(tai_khoan);
         }
 
         // POST: api/tai_khoanAPI

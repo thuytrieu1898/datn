@@ -18,6 +18,7 @@ namespace DoAnTotNghiep.Controllers
     {
         private datnEntities db = new datnEntities();
 
+        //Lấy ra bài kiểm tra
         // GET: api/bai_kiem_traAPI/Getbai_kiem_tra
         [ResponseType(typeof(bai_kiem_tra))]
         public IHttpActionResult Getbai_kiem_tra()
@@ -33,6 +34,7 @@ namespace DoAnTotNghiep.Controllers
             return Ok(bai_kiem_tra);
         }
 
+        //Lấy bài kiểm tra theo id
         // GET: api/bai_kiem_traAPI/Getbai_kiem_tra/5
         [ResponseType(typeof(bai_kiem_tra))]
         public IHttpActionResult Getbai_kiem_tra(int id)
@@ -49,16 +51,36 @@ namespace DoAnTotNghiep.Controllers
                                    Dac = ch.dap_an_c,
                                    DaD = ch.dap_an_d
                                };
-            //var baikiemtra = from bkt in db.bai_kiem_tra.Include(i => i.ct_bai_kiem_tra)
-            //                 where bkt.ID.Equals(id)
-            //                 select bkt;
-            //return Ok(baikiemtra);
+            
             if (bai_kiem_tra == null)
             {
                 return NotFound();
             }
 
             return Ok(bai_kiem_tra);
+        }
+
+        //Truyền vào ID bài kiểm tra load lên DS SV đã làm bài KT đó và điểm
+        //Get: api/bai_kiem_traAPI/DSSV
+        [ResponseType(typeof(bai_kiem_tra))]
+        public IHttpActionResult DSSV(int ID)
+        {
+            var lstSV = from bkt in db.bai_kiem_tra
+                        join bl in db.bai_lam on bkt.ID equals bl.id_bai_kt
+                        join tk in db.tai_khoan on bl.id_nguoi_lam equals tk.ID
+                        where bkt.ID.Equals(ID)
+                        select new
+                        {
+                            sinhvien = tk.ten,
+                            diem = bl.tong_diem
+                        };
+                      
+            if (lstSV == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(lstSV.ToList());
         }
 
         // PUT: api/bai_kiem_traAPI/5
@@ -92,8 +114,8 @@ namespace DoAnTotNghiep.Controllers
                     throw;
                 }
             }
-            
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(bai_kiem_tra);
+            //return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST: api/bai_kiem_traAPI/Postbai_kiem_tra

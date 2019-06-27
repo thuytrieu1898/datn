@@ -40,31 +40,7 @@ namespace DoAnTotNghiep.Controllers
             return Ok(bai_kiem_tra);
         }
 
-        ////Truyền vào ma_bkt và ID người làm lấy ra DS câu hỏi trong BKT đó
-        //[HttpGet]
-        //[ResponseType(typeof(bai_kiem_tra))]
-        //public IHttpActionResult TestCauHoi(int ID, string ma_bkt)
-        //{
-        //    var bai_kiem_tra = from bkt in db.bai_kiem_tra
-        //                       join ct in db.ct_bai_kiem_tra on bkt.ID equals ct.id_bkt
-        //                       join ch in db.cau_hoi on ct.id_cau_hoi equals ch.ID
-        //                       where bkt.ID.Equals(ID)
-        //                       select new
-        //                       {
-        //                           id = ch.ID,
-        //                           DaA = ch.dap_an_a,
-        //                           DaB = ch.dap_an_b,
-        //                           Dac = ch.dap_an_c,
-        //                           DaD = ch.dap_an_d
-        //                       };
-        //    if (bai_kiem_tra == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(bai_kiem_tra);
-        //}
-
+       
         //Hàm Random tạo ra ma_bkt
         // api/Test/CreateRandom/1
         [HttpGet]

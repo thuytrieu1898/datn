@@ -21,6 +21,14 @@ namespace DoAnTotNghiep.Controllers
         // GET: api/ct_bai_kiem_traAPI/Getct_bai_kiem_tra
         public IQueryable<ct_bai_kiem_tra> Getct_bai_kiem_tra()
         {
+            var ct_bai_kiem_tra = from ctBKT in db.ct_bai_kiem_tra
+                                  select new
+                                  {
+                                      ID_bkt = ctBKT.id_bkt,
+                                      ID_cauhoi = ctBKT.id_cau_hoi,
+                                      thutu = ctBKT.thu_tu
+                                  };
+
             return db.ct_bai_kiem_tra;
         }
 
@@ -69,7 +77,7 @@ namespace DoAnTotNghiep.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(ct_bai_kiem_tra);
         }
 
         // POST: api/ct_bai_kiem_traAPI/Postct_bai_kiem_tra

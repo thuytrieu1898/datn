@@ -69,10 +69,10 @@ namespace DoAnTotNghiep.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(ct_bai_lam);
+            //return StatusCode(HttpStatusCode.NoContent);
         }
 
-        
         // POST: api/ct_bai_lamAPI
         [ResponseType(typeof(ct_bai_lam))]
         public IHttpActionResult Postct_bai_lam(ct_bai_lam ct_bai_lam)
