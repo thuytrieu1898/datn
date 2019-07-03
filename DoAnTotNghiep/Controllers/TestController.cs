@@ -26,6 +26,7 @@ namespace DoAnTotNghiep.Controllers
                                where bkt.ma_bkt.Equals(ma_bkt)
                                select new
                                {
+                                   ID = ch.ID,
                                    MoTa = ch.mo_ta,
                                    DaA = ch.dap_an_a,
                                    DaB = ch.dap_an_b,

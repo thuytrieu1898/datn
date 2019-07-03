@@ -37,6 +37,33 @@ namespace DoAnTotNghiep.Controllers
             return Ok(ct_bai_lam);
         }
 
+        [HttpGet]
+        public IHttpActionResult DapAnDaChon(int id_nguoi_lam, int id_bai_kt, int id_cau_hoi)
+        {
+            var dapAn = from ctbl in db.ct_bai_lam
+                        where ctbl.id_nguoi_lam.Equals(id_nguoi_lam)
+                        where ctbl.id_bai_kt.Equals(id_bai_kt)
+                        where ctbl.id_cau_hoi.Equals(id_cau_hoi)
+                        select new
+                        {
+                            answer = ctbl.dap_an_chon
+                        };
+            return Ok(dapAn.FirstOrDefault());
+        }
+
+        [HttpGet]
+        public IHttpActionResult CauHoiDaChon(int id_nguoi_lam, int id_bai_kt)
+        {
+            var dapAn = from ctbl in db.ct_bai_lam
+                         where ctbl.id_nguoi_lam.Equals(id_nguoi_lam)
+                         where ctbl.id_bai_kt.Equals(id_bai_kt)
+                         select new
+                         {
+                             ctbl.id_cau_hoi
+                         };
+            return Ok(dapAn.AsEnumerable().Select(i => i.id_cau_hoi).ToArray());
+        }
+
         // PUT: api/ct_bai_lamAPI/5
         [ResponseType(typeof(void))]
         public IHttpActionResult Putct_bai_lam(int id, ct_bai_lam ct_bai_lam)

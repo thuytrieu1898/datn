@@ -149,6 +149,19 @@ namespace DoAnTotNghiep.Controllers
             return Ok(bai_kiem_tra);
         }
 
+        [HttpGet]
+        public IHttpActionResult CheckKiemTraExist(string ma)
+        {
+            var bai_kt = from bkt in db.bai_kiem_tra
+                         where bkt.ma_bkt.Equals(ma)
+                         where bkt.trang_thai == 1
+                         select new
+                         {
+                             ID = bkt.ID
+                         };
+            return Ok(bai_kt.FirstOrDefault());
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

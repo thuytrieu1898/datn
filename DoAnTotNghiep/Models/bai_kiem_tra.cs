@@ -26,6 +26,7 @@ namespace DoAnTotNghiep.Models
         public Nullable<int> chu_de { get; set; }
         public Nullable<int> so_cau_hoi { get; set; }
         public string ma_bkt { get; set; }
+        public Nullable<int> trang_thai { get; set; }
     
         public virtual chu_de chu_de1 { get; set; }
         public virtual tai_khoan tai_khoan { get; set; }

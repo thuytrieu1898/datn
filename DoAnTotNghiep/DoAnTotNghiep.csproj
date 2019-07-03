@@ -237,9 +237,6 @@
     <Compile Include="Models\sp_helpdiagrams_Result.cs">
       <DependentUpon>DATN.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>DATN.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\tai_khoan.cs">
       <DependentUpon>DATN.tt</DependentUpon>
     </Compile>

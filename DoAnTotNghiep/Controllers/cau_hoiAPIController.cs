@@ -31,7 +31,8 @@ namespace DoAnTotNghiep.Controllers
                               DaA = ch.dap_an_a,
                               DaB = ch.dap_an_b,
                               DaC = ch.dap_an_c,
-                              DaD = ch.dap_an_d
+                              DaD = ch.dap_an_d,
+                              dung = ch.cau_tra_loi
                           };
             return Ok(cau_hoi);
         }
@@ -45,19 +46,20 @@ namespace DoAnTotNghiep.Controllers
                           where ch.ID.Equals(id)
                           select new
                           {
-                              id = ch.ID,
+                              ID = ch.ID,
                               Mota = ch.mo_ta,
                               DaA = ch.dap_an_a,
                               DaB = ch.dap_an_b,
                               DaC = ch.dap_an_c,
-                              DaD = ch.dap_an_d
+                              DaD = ch.dap_an_d,
+                              dung = ch.cau_tra_loi
                           };
-            if (cau_hoi == null)
+            if (cau_hoi.FirstOrDefault() == null)
             {
                 return NotFound();
             }
 
-            return Ok(cau_hoi);
+            return Ok(cau_hoi.FirstOrDefault());
         }
 
         //Lấy danh sách câu hỏi theo chủ đề
@@ -70,7 +72,7 @@ namespace DoAnTotNghiep.Controllers
                             where cd.ID.Equals(ID)
                             select new
                             {
-                                id = ch.ID,
+                                ID = ch.ID,
                                 Mota = ch.mo_ta,
                                 DaA = ch.dap_an_a,
                                 DaB = ch.dap_an_b,
