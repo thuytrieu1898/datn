@@ -49,7 +49,7 @@ namespace DoAnTotNghiep.Controllers
                 return NotFound();
             }
 
-            return Ok(chu_de);
+            return Ok(chu_de.FirstOrDefault());
         }
 
         // PUT: api/chu_deAPI/5

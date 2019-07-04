@@ -45,6 +45,19 @@ namespace DoAnTotNghiep.Controllers
             return Ok(ct_bai_kiem_tra);
         }
 
+        [HttpGet]
+        public IHttpActionResult CauHoiTheoBKT(int id)
+        {
+            var ch = from ctbkt in db.ct_bai_kiem_tra
+                     where ctbkt.id_bkt == id
+                     select new
+                     {
+                         ctbkt.cau_hoi.ID,
+                         ctbkt.cau_hoi.mo_ta
+                     };
+            return Ok(ch);
+        }
+
         // PUT: api/ct_bai_kiem_traAPI/5
         [ResponseType(typeof(void))]
         public IHttpActionResult Putct_bai_kiem_tra(int id, ct_bai_kiem_tra ct_bai_kiem_tra)

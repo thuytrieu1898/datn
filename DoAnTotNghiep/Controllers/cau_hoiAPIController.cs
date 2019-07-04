@@ -87,7 +87,13 @@ namespace DoAnTotNghiep.Controllers
                                 DaA = ch.dap_an_a,
                                 DaB = ch.dap_an_b,
                                 DaC = ch.dap_an_c,
-                                DaD = ch.dap_an_d
+                                DaD = ch.dap_an_d,
+                                dung = ch.cau_tra_loi,
+                                chu_de = new
+                                {
+                                    ID = ch.chu_de1.ID,
+                                    ten_chu_de = ch.chu_de1.ten_chu_de
+                                }
                             };
 
             if (lstCauHoi == null)
