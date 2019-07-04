@@ -15,6 +15,7 @@
           <Property Name="so_cau_hoi" Type="int" />
           <Property Name="ma_bkt" Type="varchar" MaxLength="50" />
           <Property Name="trang_thai" Type="int" />
+          <Property Name="ten_bkt" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="bai_lam">
           <Key>
@@ -274,6 +275,7 @@
           <NavigationProperty Name="bai_lam" Relationship="Self.FK_bai_lam_bai_kiem_tra" FromRole="bai_kiem_tra" ToRole="bai_lam" />
           <NavigationProperty Name="ct_bai_kiem_tra" Relationship="Self.FK_ct_bai_kiem_tra_bai_kiem_tra" FromRole="bai_kiem_tra" ToRole="ct_bai_kiem_tra" />
           <Property Name="trang_thai" Type="Int32" />
+          <Property Name="ten_bkt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="bai_lam">
           <Key>
@@ -581,6 +583,7 @@
           <EntitySetMapping Name="bai_kiem_tra">
             <EntityTypeMapping TypeName="datnModel.bai_kiem_tra">
               <MappingFragment StoreEntitySet="bai_kiem_tra">
+                <ScalarProperty Name="ten_bkt" ColumnName="ten_bkt" />
                 <ScalarProperty Name="trang_thai" ColumnName="trang_thai" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="nguoi_tao" ColumnName="nguoi_tao" />

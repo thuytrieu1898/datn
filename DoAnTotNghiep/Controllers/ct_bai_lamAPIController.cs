@@ -95,6 +95,7 @@ namespace DoAnTotNghiep.Controllers
                     throw;
                 }
             }
+            ChamDiem(ct_bai_lam.id_cau_hoi, ct_bai_lam.id_bai_kt, ct_bai_lam.id_nguoi_lam, ct_bai_lam.dap_an_chon);
 
             return Ok(ct_bai_lam);
             //return StatusCode(HttpStatusCode.NoContent);
@@ -127,7 +128,7 @@ namespace DoAnTotNghiep.Controllers
                     throw;
                 }
             }
-
+            ChamDiem(ct_bai_lam.id_cau_hoi, ct_bai_lam.id_bai_kt, ct_bai_lam.id_nguoi_lam, ct_bai_lam.dap_an_chon);
             return CreatedAtRoute("DefaultApi", new { id = ct_bai_lam.id_nguoi_lam }, ct_bai_lam);
         }
 
@@ -145,6 +146,28 @@ namespace DoAnTotNghiep.Controllers
             db.SaveChanges();
 
             return Ok(ct_bai_lam);
+        }
+
+        private void ChamDiem(int idCauHoi, int idBaiKT, int idNguoiLam, string dapan)
+        {
+            cau_hoi cauhoi = db.cau_hoi.FirstOrDefault(x => x.ID.Equals(idCauHoi));
+            bai_kiem_tra bkt = db.bai_kiem_tra.FirstOrDefault(x => x.ID.Equals(idBaiKT));
+            int so_cau_hoi = bkt.so_cau_hoi.Value;
+            double thang_diem = 100.0 / so_cau_hoi;
+            if (cauhoi.cau_tra_loi == dapan)
+            {
+                var bailam = (from bl in db.bai_lam
+                              where bl.id_nguoi_lam.Equals(idNguoiLam) && bl.id_bai_kt.Equals(idBaiKT)
+                              select bl).FirstOrDefault();
+                bailam.tong_diem += thang_diem;
+                bailam.tong_diem = Math.Round(bailam.tong_diem.Value, 2);
+                if (bailam.tong_diem > 100)
+                {
+                    bailam.tong_diem = 100;
+                }
+                db.Entry(bailam).State = EntityState.Modified;
+                db.SaveChanges();
+            }
         }
 
         protected override void Dispose(bool disposing)

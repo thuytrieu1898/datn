@@ -32,7 +32,12 @@ namespace DoAnTotNghiep.Controllers
                               DaB = ch.dap_an_b,
                               DaC = ch.dap_an_c,
                               DaD = ch.dap_an_d,
-                              dung = ch.cau_tra_loi
+                              dung = ch.cau_tra_loi,
+                              chu_de = new
+                              { 
+                                ID = ch.chu_de1.ID,
+                                ten_chu_de = ch.chu_de1.ten_chu_de
+                              }
                           };
             return Ok(cau_hoi);
         }
@@ -52,7 +57,12 @@ namespace DoAnTotNghiep.Controllers
                               DaB = ch.dap_an_b,
                               DaC = ch.dap_an_c,
                               DaD = ch.dap_an_d,
-                              dung = ch.cau_tra_loi
+                              dung = ch.cau_tra_loi,
+                              chu_de = new
+                              {
+                                  ID = ch.chu_de1.ID,
+                                  ten_chu_de = ch.chu_de1.ten_chu_de
+                              }
                           };
             if (cau_hoi.FirstOrDefault() == null)
             {

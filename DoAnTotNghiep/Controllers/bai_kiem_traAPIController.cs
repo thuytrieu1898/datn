@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -27,9 +28,9 @@ namespace DoAnTotNghiep.Controllers
                                select new
                                {
                                    id = bkt.ID,
-                                   NguoiTao = bkt.nguoi_tao,
-                                   ChuDe = bkt.chu_de,
-                                   Mabkt = bkt.ma_bkt
+                                   ChuDe = new { ID = bkt.chu_de1.ID, tenCD = bkt.chu_de1.ten_chu_de },
+                                   Mabkt = bkt.ma_bkt,
+                                   Tenbkt = bkt.ten_bkt
                                };
             return Ok(bai_kiem_tra);
         }
@@ -60,8 +61,24 @@ namespace DoAnTotNghiep.Controllers
             return Ok(bai_kiem_tra);
         }
 
+        public IHttpActionResult GetDanhSachTheoGV(int id)
+        {
+            var bai_kiem_tra = from bkt in db.bai_kiem_tra
+                               where bkt.nguoi_tao == id
+                               select new
+                               {
+                                   id = bkt.ID,
+                                   ChuDe = new { ID = bkt.chu_de1.ID, tenCD = bkt.chu_de1.ten_chu_de },
+                                   Mabkt = bkt.ma_bkt,
+                                   Tenbkt = bkt.ten_bkt,
+                                   Trangthai = bkt.trang_thai
+                               };
+            return Ok(bai_kiem_tra);
+        }
+
         //Truyền vào ID bài kiểm tra load lên DS SV đã làm bài KT đó và điểm
         //Get: api/bai_kiem_traAPI/DSSV
+        [HttpGet]
         [ResponseType(typeof(bai_kiem_tra))]
         public IHttpActionResult DSSV(int ID)
         {
@@ -71,7 +88,7 @@ namespace DoAnTotNghiep.Controllers
                         where bkt.ID.Equals(ID)
                         select new
                         {
-                            sinhvien = tk.ten,
+                            sinhvien = new { ho=tk.ho, ten=tk.ten, id = tk.ID, ngay_sinh = tk.ngay_sinh.Value },
                             diem = bl.tong_diem
                         };
                       
@@ -80,7 +97,7 @@ namespace DoAnTotNghiep.Controllers
                 return NotFound();
             }
 
-            return Ok(lstSV.ToList());
+            return Ok(lstSV);
         }
 
         // PUT: api/bai_kiem_traAPI/5
@@ -97,7 +114,10 @@ namespace DoAnTotNghiep.Controllers
                 return BadRequest();
             }
 
-            db.Entry(bai_kiem_tra).State = EntityState.Modified;
+            var bkt = db.bai_kiem_tra.FirstOrDefault(x => x.ID == bai_kiem_tra.ID);
+            bkt.trang_thai = bai_kiem_tra.trang_thai;
+
+            db.Entry(bkt).State = EntityState.Modified;
 
             try
             {
@@ -114,7 +134,7 @@ namespace DoAnTotNghiep.Controllers
                     throw;
                 }
             }
-            return Ok(bai_kiem_tra);
+            return Ok(bkt);
             //return StatusCode(HttpStatusCode.NoContent);
         }
 
@@ -154,6 +174,19 @@ namespace DoAnTotNghiep.Controllers
         {
             var bai_kt = from bkt in db.bai_kiem_tra
                          where bkt.ma_bkt.Equals(ma)
+                         where bkt.trang_thai == 1
+                         select new
+                         {
+                             ID = bkt.ID
+                         };
+            return Ok(bai_kt.FirstOrDefault());
+        }
+
+        [HttpGet]
+        public IHttpActionResult CheckKiemTraExistID(int id)
+        {
+            var bai_kt = from bkt in db.bai_kiem_tra
+                         where bkt.ID.Equals(id)
                          where bkt.trang_thai == 1
                          select new
                          {
